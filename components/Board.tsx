@@ -66,6 +66,24 @@ function Board() {
       setBoardState({ ...board, columns: newColumns });
     } else {
       // dragging to another column
+      const finishedTodos = Array.from(finishCol.todos);
+      finishedTodos.splice(destination.index, 0, todoMoved);
+
+      const newColumns = new Map(board.columns);
+      const newCol = {
+        id: startCol.id,
+        todos: newTodos,
+      };
+
+      newColumns.set(startCol.id, newCol);
+      newColumns.set(finishCol.id, {
+        id: finishCol.id,
+        todos: finishedTodos,
+      });
+
+      // update in DB
+
+      setBoardState({ ...board, columns: newColumns });
     }
   };
 
