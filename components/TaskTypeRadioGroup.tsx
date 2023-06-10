@@ -54,7 +54,7 @@ function TaskTypeRadioGroup() {
               >
                 {({ active, checked }) => (
                   <>
-                    <div className="flex w-full items-center justify-center">
+                    <div className="flex w-full items-center justify-between">
                       <div className="flex items-center">
                         <div className="text-sm">
                           <RadioGroup.Label
