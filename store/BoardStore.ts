@@ -1,5 +1,6 @@
 import { databases } from "@/appwrite";
 import { getTodosGroupedByColumn } from "@/helpers/getTodosGroupedByColum";
+import { uploadImage } from "@/helpers/uploadImage";
 import { create } from "zustand";
 
 interface BoardState {
@@ -15,6 +16,7 @@ interface BoardState {
   setNewTaskType: (columnId: TypedColumn) => void;
   image: File | null;
   setImage: (image: File | null) => void;
+  addTask: (todo: string, columnId: TypedColumn, image?: File | null) => void;
 }
 
 export const useBoardStore = create<BoardState>((set) => ({
@@ -44,5 +46,19 @@ export const useBoardStore = create<BoardState>((set) => ({
       todo.$id,
       { title: todo.title, status: columnId }
     );
+  },
+
+  addTask: async (todo: string, columnId: TypedColumn, image?: File | null) => {
+    let file: Image | undefined;
+
+    if (image) {
+      const fileUploaded = await uploadImage(image);
+      if (fileUploaded) {
+        file = {
+          bucketId: fileUploaded.bucketId,
+          fileId: fileUploaded.$id,
+        };
+      }
+    }
   },
 }));
